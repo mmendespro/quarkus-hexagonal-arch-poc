@@ -1,0 +1,78 @@
+@startuml 'solution-class-diagram'
+
+    class Money {
+        - value: float
+        + increase(value: float): void
+        + decrease(value: float): void
+    }
+
+    class Account {
+        - id: Long
+        - balance: Money
+        + deposit(value: float): void
+        + withdraw(value: float): void
+    }
+
+    interface CreateAccountUseCase {
+        + create(id: Long, amount: float): void
+    }
+
+    interface DepositUseCase {
+        + deposit(id: Long, amount: float): void
+    }
+
+    interface WithdrawUseCase {
+        + withdraw(id: Long, amount: float): void
+    }
+
+    interface TransferUseCase {
+        + transfer(fromAccount: Long, toAccount: Long, amount: float): void
+    }
+
+    interface CheckBalanceUseCase {
+        + checkBalance(id: Long): float
+    }
+
+    interface LoadAccountPort {
+        + load(id: Long): Optional<Account>
+    }
+
+    interface SaveAccountPort {
+        + save(account: Account): void
+    }
+
+    abstract class JpaRepository<T, ID extends Serializable> {}
+
+    class BankAccountRepository extends JpaRepository implements LoadAccountPort, SaveAccountPort {
+        + load(id: Long): Optional<Account>
+        + save(account: Account): void
+    } 
+
+    class BankAccountService implements CreateAccountUseCase, CheckBalanceUseCase, DepositUseCase, WithdrawUseCase, TransferUseCase {
+        - loadAccountPort: LoadAccountPort
+        - saveAccountPort: SaveAccountPort
+        + BankAccountService(loadAccountPort, saveAccountPort)
+    }
+
+    class BankAccountController {
+        - depositUseCase: DepositUseCase
+        - withdrawUseCase: WithdrawUseCase
+        - createAccountUseCase: CreateAccountUseCase
+        - checkBalanceUseCase: CheckBalanceUseCase
+        - transferUseCase: TransferUseCase 
+        + BankAccountController(createAccountUseCase, depositUseCase, withdrawUseCase, checkBalanceUseCase, transferUseCase)
+    }
+
+    BankAccountController --> DepositUseCase
+    BankAccountController --> WithdrawUseCase
+    BankAccountController --> CreateAccountUseCase
+    BankAccountController --> CheckBalanceUseCase
+    BankAccountController --> TransferUseCase
+    
+    BankAccountService --> LoadAccountPort
+    BankAccountService --> SaveAccountPort
+
+    BankAccountRepository --> Account
+
+    Account --> Money    
+@enduml
