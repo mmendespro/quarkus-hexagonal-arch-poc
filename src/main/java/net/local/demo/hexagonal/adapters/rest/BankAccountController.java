@@ -3,6 +3,7 @@ package net.local.demo.hexagonal.adapters.rest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -35,36 +36,36 @@ public class BankAccountController {
         this.transferUseCase = transferUseCase;
     }
 
+    @GET
+    @Path("{id}") 
+    public Response checkBalance(@PathParam("id") Long id) {
+        return Response.ok(checkBalanceUseCase.checkBalance(id)).build(); 
+    }
+
     @POST
     public Response createAccount(AccountRequest request){
         createAccountUseCase.create(request.getId(), request.getBalance());
         return Response.ok(request).status(201).build();  
     }
 
-    @POST
+    @PUT
     @Path("{id}/deposit/{amount}") 
     public Response depositAmount(@PathParam("id") Long id, @PathParam("amount") float amount){
         depositUseCase.deposit(id, amount);
-        return Response.ok().status(200).build();  
+        return Response.ok().status(204).build();  
     }
 
-    @POST
+    @PUT
     @Path("{id}/withdraw/{amount}") 
     public Response withdrawAmount(@PathParam("id") Long id, @PathParam("amount") float amount){
         withdrawUseCase.withdraw(id, amount);
-        return Response.ok().status(200).build();  
+        return Response.ok().status(204).build();  
     }
 
-    @POST
+    @PUT
     @Path("{fromId}/transfer/{toId}/{amount}") 
     public Response transferAmount(@PathParam("fromId") Long fromId, @PathParam("toId") Long toId, @PathParam("amount") float amount){
         transferUseCase.transfer(fromId, toId, amount);
-        return Response.ok().status(200).build();  
-    }
-
-    @GET
-    @Path("{id}") 
-    public Response checkBalance(@PathParam("id") Long id) {
-        return Response.ok(checkBalanceUseCase.checkBalance(id)).build(); 
+        return Response.ok().status(204).build();  
     }
 }

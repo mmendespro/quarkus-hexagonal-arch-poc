@@ -1,4 +1,4 @@
-package net.local.demo.hexagonal.infra.persistence.mappers;
+package net.local.demo.hexagonal.infra.mappers;
 
 import net.local.demo.hexagonal.application.domain.entities.Account;
 import net.local.demo.hexagonal.infra.persistence.entities.AccountJPA;

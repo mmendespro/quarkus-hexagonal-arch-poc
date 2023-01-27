@@ -4,7 +4,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 
 import net.local.demo.hexagonal.application.services.BankAccountService;
-import net.local.demo.hexagonal.infra.persistence.BankAccountRepository;
+import net.local.demo.hexagonal.infra.persistence.repository.BankAccountRepository;
 
 @Dependent
 public class Config {

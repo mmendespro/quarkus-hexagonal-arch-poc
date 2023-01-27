@@ -71,8 +71,7 @@
     
     BankAccountService --> LoadAccountPort
     BankAccountService --> SaveAccountPort
-
-    BankAccountRepository --> Account
-
+    BankAccountService --> Account
+    
     Account --> Money    
 @enduml

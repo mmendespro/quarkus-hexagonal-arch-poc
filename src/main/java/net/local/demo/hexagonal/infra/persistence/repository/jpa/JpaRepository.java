@@ -1,4 +1,4 @@
-package net.local.demo.hexagonal.infra.persistence.repository;
+package net.local.demo.hexagonal.infra.persistence.repository.jpa;
 
 import java.io.Serializable;
 import java.util.List;
