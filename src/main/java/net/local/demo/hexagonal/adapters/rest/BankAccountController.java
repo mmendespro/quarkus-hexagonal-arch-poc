@@ -10,7 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import net.local.demo.hexagonal.adapters.rest.request.AccountBalanceResponse;
 import net.local.demo.hexagonal.adapters.rest.request.AccountRequest;
+import net.local.demo.hexagonal.application.domain.entities.Account;
 import net.local.demo.hexagonal.application.ports.incoming.CheckBalanceUseCase;
 import net.local.demo.hexagonal.application.ports.incoming.CreateAccountUseCase;
 import net.local.demo.hexagonal.application.ports.incoming.DepositUseCase;
@@ -39,7 +41,9 @@ public class BankAccountController {
     @GET
     @Path("{id}") 
     public Response checkBalance(@PathParam("id") Long id) {
-        return Response.ok(checkBalanceUseCase.checkBalance(id)).build(); 
+        Account account = checkBalanceUseCase.checkBalance(id);
+        AccountBalanceResponse response = new AccountBalanceResponse(account.getBalance().getValue(), account.getTransactions());
+        return Response.ok(response).build(); 
     }
 
     @POST

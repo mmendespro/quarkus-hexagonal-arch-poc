@@ -1,15 +1,21 @@
 package net.local.demo.hexagonal.application.domain.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.local.demo.hexagonal.application.domain.valueObjects.Money;
 
 public class Account {
     
     private Long id;
     private Money balance;
+    private List<Transaction> transactions;
 
     public Account(Long id, float balance) {
         this.id = id;
         this.balance = new Money(balance);
+        this.transactions = new ArrayList<>();
     }
 
     public Long getId() {
@@ -26,9 +32,15 @@ public class Account {
 
     public void deposit(float value) {
         balance.increase(value);
+        this.transactions.add(new Transaction("deposit", value));
     }
     
     public void withdraw(float value) {
         balance.decrease(value);
+        this.transactions.add(new Transaction("withdraw", value));
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }

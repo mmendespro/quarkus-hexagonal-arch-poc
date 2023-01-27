@@ -24,7 +24,7 @@ public class BankAccountService implements CreateAccountUseCase, CheckBalanceUse
 
     @Override
     public void withdraw(Long id, float amount) {
-        if(this.checkBalance(id) < amount) {
+        if(this.checkBalance(id).getBalance().getValue() < amount) {
             throw new NoFundsException(String.format("Account %s have no funds to this transaction.", id));
         }
         Account account = loadAccountPort.load(id).orElseThrow(NoSuchElementException::new);
@@ -40,9 +40,9 @@ public class BankAccountService implements CreateAccountUseCase, CheckBalanceUse
     }
 
     @Override
-    public float checkBalance(Long id) {
+    public Account checkBalance(Long id) {
         Account account = loadAccountPort.load(id).orElseThrow(NoSuchElementException::new);
-        return account.getBalance().getValue();
+        return account;
     }
 
     @Override
