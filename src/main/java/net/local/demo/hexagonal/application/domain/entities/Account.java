@@ -1,7 +1,6 @@
 package net.local.demo.hexagonal.application.domain.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.local.demo.hexagonal.application.domain.valueObjects.Money;
