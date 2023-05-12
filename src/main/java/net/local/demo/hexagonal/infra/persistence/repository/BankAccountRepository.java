@@ -33,10 +33,8 @@ public class BankAccountRepository extends JpaRepository<AccountJPA, Long> imple
 
     @Override
     public Optional<Account> load(Long id) {
-        var accountJPA = loadById(id);
-        if(accountJPA.isPresent()) {
-            return Optional.of(AccountMapper.fromAccountJPA(accountJPA.get()));
-        }
-        return Optional.empty();
+        return loadById(id).map(accountJPA -> AccountMapper.fromAccountJPA(accountJPA))
+                           .map(Optional::of)
+                           .orElse(Optional.empty());
     }    
 }
